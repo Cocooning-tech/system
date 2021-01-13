@@ -3,8 +3,8 @@
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: cd /apps/test
-    register: cd
+    command: mkdir /apps/test
+    register: mkdir
   - name: "Result"
     debug:
-      msg: "{{cd}}"
+      msg: "{{mkdir}}"
