@@ -1,0 +1,10 @@
+- hosts: lin
+  become: no
+  gather_facts: no
+  tasks:
+  - name: "Execute command"
+    command: cd /apps/test
+    register: cd
+  - name: "Result"
+    debug:
+      msg: "{{cd}}"
