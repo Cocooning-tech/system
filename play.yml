@@ -4,8 +4,8 @@
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: mkdir /apps/test
-    register: mkdir
+    command: whoami
+    register: who
   - name: "Result"
     debug:
-      msg: "{{mkdir}}"
+      msg: "{{who}}"
