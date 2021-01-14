@@ -3,7 +3,7 @@
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: whoami
+    command: mkdir /apps/tchube
     register: who
   - name: "Result"
     debug:
