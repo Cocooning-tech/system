@@ -1,6 +1,5 @@
 - hosts: lin
-  become: yes
-  become_user: pi
+  become: no
   gather_facts: no
   tasks:
   - name: "Execute command"
