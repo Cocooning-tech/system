@@ -1,9 +1,9 @@
-- hosts: lin
+- hosts: 192.168.1.20
   become: no
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: mkdir /apps/tchube
+    command: whoami
     register: who
   - name: "Result"
     debug:
