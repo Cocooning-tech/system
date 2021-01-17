@@ -3,7 +3,7 @@
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: cat /apps/ddclient/docker-compose.yml
+    command: docker stack deploy --compose-file docker-compose.yml whoami
     register: who
   - name: "Result"
     debug:
