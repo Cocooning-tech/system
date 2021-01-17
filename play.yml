@@ -3,8 +3,8 @@
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: whoami
-    register: who
+    command: cat /apps/ddclient/docker-compose.yml
+    register: whom
   - name: "Result"
     debug:
       msg: "{{who}}"
