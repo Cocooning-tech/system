@@ -3,7 +3,7 @@
   gather_facts: no
   tasks:
   - name: "Execute command"
-    command: docker rm whoami
+    command: docker stack rm whoami
     register: who
   - name: "Result"
     debug:
