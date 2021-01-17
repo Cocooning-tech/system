@@ -4,7 +4,7 @@
   tasks:
   - name: "Execute command"
     command: cat /apps/ddclient/docker-compose.yml
-    register: whom
+    register: who
   - name: "Result"
     debug:
       msg: "{{who}}"
