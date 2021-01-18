@@ -1,19 +1,16 @@
-- hosts: lin
-  become: no
-  gather_facts: no
-  blocks:
-    - name: "Set things up"
-      task:
-        jobs:
-          - name: Compile
-            commands:
-              - checkout
-              - echo "Linting code"
-              - echo "Compiling code"
-    - name: "Unit tests"
-      task:
-        jobs:
-          - name: Unit
-            commands:
-              - checkout
-              - echo "Running unit tests"
+blocks:
+  - name: "Set things up"
+    task:
+      jobs:
+        - name: Compile
+          commands:
+            - checkout
+            - echo "Linting code"
+            - echo "Compiling code"
+  - name: "Unit tests"
+    task:
+      jobs:
+        - name: Unit
+          commands:
+            - checkout
+            - echo "Running unit tests"
