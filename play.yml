@@ -1,10 +1,5 @@
 - hosts: lin
   become: no
   gather_facts: no
-  tasks:
-  - name: "Execute command"
-    command: docker stack deploy --compose-file /apps/whoami/docker-compose.yml whoami
-    register: who
-  - name: "Result"
-    debug:
-      msg: "{{who}}"
+  roles:
+    - common
