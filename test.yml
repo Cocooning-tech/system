@@ -1,11 +1,10 @@
-version: "v1.0"
-name: Monorepo pipeline
-agent:
-  machine:
-    type: e1-standard-2
-    os_image: ubuntu1804
+---
 
-blocks:
+- name: Network Getting Started First Playbook
+  connection: ansible.netcommon.network_cli
+  gather_facts: false
+  hosts: all
+  blocks:
   - name: "Backend Lint"
     dependencies: []
     task:
@@ -28,7 +27,6 @@ blocks:
       jobs:
       - name: "Build"
         commands:
-          - sleep 10
           - echo "Build completed"
 
   - name: "Frontend Build"
