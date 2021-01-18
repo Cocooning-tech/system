@@ -1,6 +1,6 @@
 # comment 1
 - name: "Execute command 1"
-  command: echo message de tchube
+  msg: echo message de tchube
 # comment 2
 - name: "Execute command 2"
-  command: echo message de tchube 2
+  msg: echo message de tchube 2
