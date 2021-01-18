@@ -1,16 +1,12 @@
-blocks:
-  - name: "Set things up"
+- hosts: lin
+  become: no
+  gather_facts: no
+  tasks:
     task:
       jobs:
-        - name: Compile
-          commands:
-            - checkout
-            - echo "Linting code"
-            - echo "Compiling code"
-  - name: "Unit tests"
-    task:
-      jobs:
-        - name: Unit
-          commands:
-            - checkout
-            - echo "Running unit tests"
+      - name: "Unit tests 1/2"
+        commands:
+          - echo "Unit tests 1/2 completed"
+      - name: "Unit tests 2/2"
+        commands:
+          - echo "Unit tests 2/2 completed"
