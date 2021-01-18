@@ -4,7 +4,7 @@
   connection: ansible.netcommon.network_cli
   gather_facts: false
   hosts: all
-  tacks:
+  tasks:
   - name: "Backend Lint"
     dependencies: []
     task:
