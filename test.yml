@@ -1,7 +1,61 @@
-- hosts: lin
-  become: no
-  gather_facts: no
-  tasks:
+version: "v1.0"
+name: Monorepo pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: "Backend Lint"
+    dependencies: []
+    task:
+      jobs:
+      - name: "Lint"
+        commands:
+          - echo "Lint completed"
+
+  - name: "Frontend Lint"
+    dependencies: []
+    task:
+      jobs:
+      - name: "Lint"
+        commands:
+          - echo "Lint completed"
+
+  - name: "Backend Build"
+    dependencies: ["Backend Lint"]
+    task:
+      jobs:
+      - name: "Build"
+        commands:
+          - sleep 10
+          - echo "Build completed"
+
+  - name: "Frontend Build"
+    dependencies: ["Frontend Lint"]
+    task:
+      jobs:
+      - name: "Build"
+        commands:
+          - sleep 10
+          - echo "Build completed"
+
+  - name: "Backend Unit tests"
+    dependencies: ["Backend Build"]
+    task:
+      jobs:
+      - name: "Unit tests 1/3"
+        commands:
+          - echo "Unit tests 1/3 completed"
+      - name: "Unit tests 2/3"
+        commands:
+          - echo "Unit tests 2/3 completed"
+      - name: "Unit tests 3/3"
+        commands:
+          - echo "Unit tests 3/3 completed"
+
+  - name: "Frontend Unit tests"
+    dependencies: ["Frontend Build"]
     task:
       jobs:
       - name: "Unit tests 1/2"
@@ -10,3 +64,19 @@
       - name: "Unit tests 2/2"
         commands:
           - echo "Unit tests 2/2 completed"
+
+  - name: "E2E tests"
+    dependencies: ["Backend Unit tests", "Frontend Unit tests"]
+    task:
+      jobs:
+      - name: "Nightwatch 🦉"
+        commands:
+          - echo "Nightwatch done"
+
+  - name: "Release candidate"
+    dependencies: ["E2E tests"]
+    task:
+      jobs:
+      - name: "Release"
+        commands:
+          - echo "Release completed"
