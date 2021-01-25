@@ -1,8 +1,8 @@
+---
 # comment 1
 - name: "Execute command 1"
   debug:
     msg: message de tchube 1
-# comment 2
-- name: "Execute command 2"
-  debug:
-    msg: message de tchube 2
+# ping
+- name: Example ping
+  ansible.builtin.ping:

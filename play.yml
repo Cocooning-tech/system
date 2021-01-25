@@ -1,4 +1,4 @@
-- hosts: lin
+- hosts: ubuntu-server
   become: no
   gather_facts: no
   roles:
