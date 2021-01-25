@@ -1,6 +1,5 @@
 - hosts: ubuntu-server
   become: yes
   become_user: tchube
-  become_method: su
   roles:
     - common
