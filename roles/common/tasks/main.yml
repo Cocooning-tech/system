@@ -4,5 +4,5 @@
   debug:
     msg: message de tchube 1
 # ping
-#- name: Example ping
-#  ansible.builtin.ping:
+- name: Example ping
+  ansible.builtin.ping:
