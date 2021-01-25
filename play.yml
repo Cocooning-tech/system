@@ -1,4 +1,4 @@
-- hosts: ubuntu-server
+- hosts: all
   become: yes
   become_method: su
   become_user: tchube
