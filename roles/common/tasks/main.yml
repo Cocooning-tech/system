@@ -7,7 +7,7 @@
 - name: Example ping
   ansible.builtin.ping:
 # update
-- name: Update repositories cache
+- name: Update repositories cache and install foo
   apt:
-    name: foo
+#    name: foo
     update_cache: yes
