@@ -1,5 +1,5 @@
 - hosts: ubuntu-server
-  become: no
-  gather_facts: no
+  become: yes
+  become_user: tchube
   roles:
     - common
