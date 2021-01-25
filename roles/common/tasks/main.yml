@@ -8,6 +8,9 @@
   ansible.builtin.ping:
 # update
 - name: Update repositories cache and install foo
+  become: yes
+  become_method: su
+  become_user: root
   apt:
 #    name: foo
     update_cache: yes
