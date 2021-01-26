@@ -9,6 +9,6 @@
 # update
 - name: Update repositories cache and install foo
   apt:
-#    name: foo
+    name: ddclient
     update_cache: yes
   become: yes
