@@ -11,3 +11,4 @@
   apt:
 #    name: foo
     update_cache: yes
+  become: yes
