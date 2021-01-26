@@ -19,3 +19,4 @@
 - name: Set timezone to Europe/Paris
   community.general.timezone:
     name: Europe/Paris
+    hwclock: UTC
