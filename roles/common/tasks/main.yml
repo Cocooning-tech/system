@@ -7,8 +7,12 @@
 - name: Example ping
   ansible.builtin.ping:
 # update
-- name: Update repositories cache and install foo
+- name: Update repositories cache and install ddclient
   apt:
     name: ddclient
     update_cache: yes
   become: yes
+- name: "Copy test.txt"
+  copy:
+    src: "test.txt"
+    dest: "/home/ubuntu"
