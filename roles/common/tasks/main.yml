@@ -9,11 +9,11 @@
   ansible.builtin.ping:
 
 ## update
-- name: Update repositories cache and install ddclient
-  apt:
-    name: ddclient
-    update_cache: yes
-  become: yes
+#- name: Update repositories cache and install ddclient
+#  apt:
+#    name: ddclient
+#    update_cache: yes
+#  become: yes
 
 - name: "Copy test.txt"
   copy:
