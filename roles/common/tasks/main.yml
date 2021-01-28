@@ -9,23 +9,24 @@
   ansible.builtin.ping:
 
 ## update
-#- name: Update repositories cache and install ddclient
-#  apt:
-#    name: ddclient
-#    update_cache: yes
-#  become: yes
+- name: Update repositories cache and install ddclient
+  apt:
+    name: ddclient
+    update_cache: yes
+  become: yes
 
-#- name: "Copy test.txt"
-#  copy:
-#    src: "test.txt"
-#    dest: "/home/ubuntu"
+- name: "Copy test.txt"
+  copy:
+    src: "test.txt"
+    dest: "/home/ubuntu"
 
-#- name: Set timezone to Europe/Paris
-#  timezone:
-#    name: Europe/Paris
-#    hwclock: UTC
-#  become: yes
+- name: Set timezone to Europe/Paris
+  timezone:
+    name: Europe/Paris
+    hwclock: UTC
+  become: yes
 
-#- name: Print all available facts
-#  debug:
-#    var: ansible_facts
+- name: Print all available facts
+  debug:
+    var: ansible_facts
+  become: yes
