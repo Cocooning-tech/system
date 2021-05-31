@@ -1,13 +1,6 @@
 # Installation de l'OS
 
-## Installation d'ubuntu server armhf
-
-### Gravure et insertion de la SD
-
-Graver une version de l'image disque sur SD card (Balena)
-
 * version __ubuntu-20.04-server__
-* version __ubuntu-18.04-server__
 
 Ejecter et rebrancher le lecteur/graveur USB
 
@@ -18,26 +11,68 @@ login : __ubuntu__
 password : __ubuntu__  
 Change le mot de passe et se reconnecter  
 
+Désactiver les mises à jour automatique
+
+```bash
+nano /etc/apt/apt.conf.d/20auto-upgrades
+```
+
+Modifier
+
+```bash
+APT::Periodic::Unattended-Upgrade "0"
+```
+
 ```bash
 sudo su
-apt update 
-apt full-upgrade
-timedatectl set-timezone Europe/Paris
-apt-get install zip docker.io docker-compose nfs-kernel-server
-# mkdir /home/root
+apt-get update 
+apt-get upgrade
+
+apt-get install zip nfs-kernel-server
+
 wget https://codeload.github.com/Cocooning-tech/cocooning/zip/master
 unzip master
 mv cocooning-master /apps
 rm master
 chmod 600 /apps/traefik/acme.json
-## install docker
-sudo curl
-# sudo systemctl enable docker
 ```
 
 > Sous la version 20.04 il peut être nécessaire de rebooter entre update et upgrade
 
-### Activer le Wifi
+## Créer user
+
+```bash
+sudo adduser tchube
+sudo usermod -aG sudo username
+```
+
+```bash
+sudo reboot
+```
+
+## Changer le hostname
+
+```bash
+nano /etc/hostname
+```
+
+Changer le hostname en fonction du type de noeud
+
+```bash
+master1
+```
+
+```bash
+worker1
+```
+
+>Les hostname de chaque noeud du cluster doivent être différents
+
+```bash
+reboot
+```
+
+## Activer le Wifi
 
 Configurer Netplan  
 
@@ -79,26 +114,19 @@ sudo netplan generate
 sudo netplan apply
 ```
 
-### Changer le hostname
+## Installer Docker et Docker compose
 
 ```bash
-nano /etc/hostname
-```
-
-Changer le hostname en fonction du type de noeud
-
-```bash
-cl-1-master-1
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
 ```
 
 ```bash
-cl-1-worker-1
+sudo usermod -aG docker tchube
 ```
 
->Les hostname de chaque noeud du cluster doivent être différents
-
 ```bash
-reboot
+sudo apt-get install docker-compose
 ```
 
 ## Installation d'un server NFS
