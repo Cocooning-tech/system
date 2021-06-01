@@ -205,3 +205,11 @@ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1
 ```
 
 ### Mode High Availability with Embedded DB (Experimental) avec etcd
+
+## Command line
+
+Temprérature cpu
+
+```bash
+cat /sys/class/thermal/thermal_zone0/temp
+```

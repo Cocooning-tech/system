@@ -21,6 +21,30 @@ Activer le WIFI
 Enable serial port  
 Avahi
 
+## Créer utilisateurs, groupes et permissions
+
+```bash
+sudo useradd tchube # si pas créé automatiquement à la première connexion
+sudo groupadd cocooning
+sudo groupadd docker
+sudo adduser tchube cocooning
+sudo adduser tchube sudo
+sudo adduser tchube docker
+```
+
+## créer le répertoire .cocooning
+
+```bash
+cd /
+sudo mkdir .cocooning # le propriétaire et le groupe sont root
+# changer le propriétaire, le groupe du répertoire et les permissions pour le groupe et user
+sudo chown -R tchube .cocooning
+sudo chgrp -R cocooning .cocooning
+# plus besoin de sudo si on est connecté "tchube"
+chmod g+rwx -R .cocooning
+chmod u+rwx -R .cocooning
+```
+
 ## clef SSH
 
 Dans le répertoire /home/tchube
@@ -37,23 +61,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCozFtSIuiagl4UCgTOWe7Mjz7pz4MkINJehuPsHxr0
 ```
 
 ## Modifier access SSH (port 22...)
-
-Droits Utilisateur  
-On va maintenant :  
-– créer un groupe pour les utilisateurs restreints,  
-– créer notre utilisateur restreint,  
-– modifier les droits de son dossier home (le dossier doit appartenir à root pour être chrooté) et son contenu :
-
-```bash
-sudo groupadd cocooning
-
-sudo useradd tchube -m -d /home/tchube/ -s /bin/false -g cocooning
-
-sudo chmod 755 /home/
-sudo chown root:root /home/
-sudo chmod -R 755 /home/*
-sudo chown -R tchube:tchube /home/*
-```
 
 Configuration
 
@@ -72,7 +79,7 @@ PrintMotd no
 AcceptEnv LANG LC_*
 # Subsystem sftp /usr/lib/openssh/sftp-server
 Subsystem  sftp  internal-sftp
-Match Group cocooning
+Match User tchube
          ChrootDirectory /home/%u
          ForceCommand internal-sftp
          AllowTCPForwarding no
@@ -103,17 +110,6 @@ apt-get install
 
 ```bash
 sudo nmtui
-```
-
-## Créer user
-
-```bash
-sudo adduser tchube
-sudo usermod -aG sudo username
-```
-
-```bash
-sudo reboot
 ```
 
 ## Installer Docker et Docker compose
@@ -182,12 +178,22 @@ Ajouter l'identification (attention espace ou tab ?)
     name = cocooning
 ```
 
-
-
 ## Commandes
 
-Etteindre
+### Etteindre
 
 ```bash
 sudo halt
+```
+
+### Température cpu
+
+```bash
+htop
+```
+
+ou
+
+```bash
+cat /sys/class/thermal/thermal_zone0/temp
 ```

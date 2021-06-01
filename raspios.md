@@ -98,3 +98,9 @@ Afficher la température du processeur
 ```bash
 /opt/vc/bin/vcgencmd measure_temp
 ```
+
+ou
+
+```bash
+cat /sys/class/thermal/thermal_zone0/temp
+```
