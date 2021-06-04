@@ -2,7 +2,7 @@
 
 login : root  
 password : 1234  
-Ne pas paramétrer le timezone
+Paramétrer le timezone
 
 ## Update
 
@@ -18,13 +18,35 @@ sudo armbian-config
 ```
 
 Activer le WIFI  
-Enable serial port  
-Avahi
+Saisir les IP fixes
+
+## Gérer l'erreur WIFI (Ne pas tenir compte)
+
+Récuperer l'adresse MAC de wlan (ether)
+
+```bash
+sudo ifconfig -a
+```
+
+L'ajouter dans la section wifi du fichier de la box correspondant __cloned-mac-address=xx:xx:xx:xx:xx:xx__
+
+```bash
+sudo nano /etc/Networkmanager/system-connections/Wired connection 1.nmconnection
+```
+
+```bash
+[wifi]
+mac-address-blacklist=
+mode=infrastructure
+seen-bssids=3C:98:72:E5:24:6B;
+ssid=Livebox-2466
+cloned-mac-address=b0:02:47:bc:9e:b9
+```
 
 ## Créer utilisateurs, groupes et permissions
 
 ```bash
-sudo useradd tchube # si pas créé automatiquement à la première connexion
+sudo adduser tchube # A vérifier et si pas créé automatiquement à la première connexion
 sudo groupadd cocooning
 sudo groupadd docker
 sudo adduser tchube cocooning
@@ -37,7 +59,28 @@ sudo adduser tchube docker
 ```bash
 cd /
 sudo mkdir .cocooning # le propriétaire et le groupe sont root
-# changer le propriétaire, le groupe du répertoire et les permissions pour le groupe et user
+cd .cocooning
+sudo mkdir common
+```
+
+Initialiser git de l'utilisateur
+
+```bash
+sudo git config --global user.name "cocooning"
+sudo git config --global user.email jp.tchube@cocooning.tech
+```
+
+Cloner le repository de l'utilisateur (https)
+
+```bash
+cd /.cocooning
+sudo git clone 
+```
+
+Changer le propriétaire, le groupe du répertoire et les permissions pour le groupe et users
+
+```bash
+cd /
 sudo chown -R tchube .cocooning
 sudo chgrp -R cocooning .cocooning
 # plus besoin de sudo si on est connecté "tchube"
@@ -50,8 +93,9 @@ chmod u+rwx -R .cocooning
 Dans le répertoire /home/tchube
 
 ```bash
-sudo su
-nano authorized_keys
+sudo mkdir .ssh
+cd .ssh
+sudo nano authorized_keys
 ```
 
 Copier la clef publique "cocooning"
@@ -60,7 +104,7 @@ Copier la clef publique "cocooning"
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCozFtSIuiagl4UCgTOWe7Mjz7pz4MkINJehuPsHxr0aIhRAherHnmKIb30l8951eYdXfE9OZ0TVvu80Y+7/WngXHS2laylr+W9U8tdJ0c5c3BRFX15/aP/vKyaEo1c/J89Jslpx2jILyDL4ZI3o5TQ/yl9LVPd7SMmo4Ztq8LqiDmQq2IOY4VkUmDhZl20BXWDyt7xVmcbKyAx7wkpos+HHbCkgMc7sKNyqxNF6CZHBecM/0Xk6NfyGZQ4zAQW0Ii4/L4m481NPpoLAyPEmUOWvEDGDSNJt2MDyf0axEoV1CxFfYb25NUwNXGElTLlJX6wBP1u2L/3WSr1xu+tsp0viEtZO6JgZujux9KCkPiJRc37zuHnwtbAFYJI0pIPyRGv26V7I4IrM9JF+zzm3LjdCs2G1SmdcxSnaOWX1VxJOMbQKMpF0XgIm4aM9BLOQmXwkFVGyzrhNVx/xauwZySM6UV0tBQT10vTUDpwput0AAzMpJSSNUVX48b9eQr9mW8= tchube@ubuntu-server
 ```
 
-## Modifier access SSH (port 22...)
+## Modifier access SSH (port 22...) si nécessaire
 
 Configuration
 
@@ -77,13 +121,13 @@ UsePAM yes
 X11Forwarding yes
 PrintMotd no
 AcceptEnv LANG LC_*
-# Subsystem sftp /usr/lib/openssh/sftp-server
-Subsystem  sftp  internal-sftp
-Match User tchube
-         ChrootDirectory /home/%u
-         ForceCommand internal-sftp
-         AllowTCPForwarding no
-         X11Forwarding no
+Subsystem sftp /usr/lib/openssh/sftp-server
+#Subsystem  sftp  internal-sftp
+#Match User tchube
+#         ChrootDirectory /home/%u
+#         ForceCommand internal-sftp
+#         AllowTCPForwarding no
+#         X11Forwarding no
 ```
 
 ```bash
@@ -112,16 +156,15 @@ apt-get install
 sudo nmtui
 ```
 
-## Installer Docker et Docker compose
+## Installer Docker.io et Docker compose
+
+Sur master et worker
 
 ```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+sudo apt-get install docker
 ```
 
-```bash
-sudo usermod -aG docker tchube
-```
+Sur master uniquement
 
 ```bash
 sudo apt-get install docker-compose
@@ -134,11 +177,35 @@ sudo su
 docker swarm init --advertise-addr 192.168.1.100
 ```
 
+ou ajouter un master
+
+```bash
+docker swarm join-token manager
+```
+
+and paste le résultat
+
+```bash
+docker swarm join --token SWMTKN-1-13z9uafwgjdkfv3ik18ttceqgtogdqr4xurhc6vaybeckx7i7u-2lnnyzeqb93ejgjrdlivsg7rf 192.168.1.100:2377
+```
+
 ### Installation d'un worker node
 
 ```bash
 sudo su
 docker swarm join --token SWMTKN-1-2q2nqvmoevas7lym46zvce7niu6zoemhiruqr2xdav494f32r8-5gkcg3t5638ewg5mmjejdni63 192.168.1.50:2377
+```
+
+ou ajouter un worker
+
+```bash
+docker swarm join-token worker
+```
+
+and paste le résultat
+
+```bash
+docker swarm join --token SWMTKN-1-13z9uafwgjdkfv3ik18ttceqgtogdqr4xurhc6vaybeckx7i7u-2lnnyzeqb93ejgjrdlivsg7rf 192.168.1.100:2377
 ```
 
 Créer le network de type overlay (traefik,hassio...) : cocooning-network
